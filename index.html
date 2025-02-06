@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trucking Rate Calculator</title>
+    <script>
+        const correctPassword = "trucking123"; // Set your password here
+
+        function checkPassword() {
+            let enteredPassword = prompt("Enter password to access:");
+
+            if (enteredPassword === correctPassword) {
+                document.getElementById("protectedContent").style.display = "block";
+                document.getElementById("loginSection").style.display = "none";
+            } else {
+                alert("Incorrect password.");
+                window.location.href = "https://google.com"; // Redirect if wrong
+            }
+        }
+
+        function logout() {
+            location.reload(); // Reload the page to trigger the password prompt again
+        }
+
+        document.addEventListener("DOMContentLoaded", checkPassword);
+    </script>
+</head>
+<body>
+    <div id="loginSection">
+        <h2>Checking Password...</h2>
+    </div>
+
+    <div id="protectedContent" style="display:none;">
+        <h1>Welcome to the Trucking Rate Calculator</h1>
+        <p>Enter a ZIP code to get a rate:</p>
+        <input type="text" id="zipCodeInput" placeholder="Enter ZIP code">
+        <button onclick="getRate()">Get Rate</button>
+
+        <p id="rateOutput"></p>
+
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        function getRate() {
+            let zip = document.getElementById("zipCodeInput").value;
+            document.getElementById("rateOutput").innerText = "Rate for " + zip + " is $XXX"; 
+            // Replace with actual logic later
+        }
+    </script>
+</body>
+</html>
