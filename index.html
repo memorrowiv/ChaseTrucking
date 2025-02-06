@@ -52,7 +52,7 @@
             document.getElementById("rateOutput").innerText = "Fetching data..."; // Show a loading message
 
             const spreadsheetId = '1TuzowmTD242gjt2aXYCV8crcRZlLMQEB';  // Your spreadsheet ID
-            const range = 'Sheet1!B5'; // Range to set ZIP code in cell B5
+            const range = 'Info!B5'; // Range to set ZIP code in cell B5
 
             // First, set the ZIP code in cell B5
             gapi.client.sheets.spreadsheets.values.update({
@@ -64,7 +64,7 @@
                 }
             }).then((response) => {
                 // After setting the ZIP, get the rates from cells B10, B11, and B12
-                const rateRange = 'Sheet1!B10:B12'; // Range for freight cost, fuel cost, and total
+                const rateRange = 'Info!B10:B12'; // Range for freight cost, fuel cost, and total
                 gapi.client.sheets.spreadsheets.values.get({
                     spreadsheetId: spreadsheetId,
                     range: rateRange
