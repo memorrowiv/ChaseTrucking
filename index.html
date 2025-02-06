@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trucking Rate Calculator</title>
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
         const correctPassword = "trucking123"; // Set your password here
 
@@ -13,6 +14,7 @@
             if (enteredPassword === correctPassword) {
                 document.getElementById("protectedContent").style.display = "block";
                 document.getElementById("loginSection").style.display = "none";
+                initApiClient(); // Initialize the Google Sheets API once the password is correct
             } else {
                 alert("Incorrect password.");
                 window.location.href = "https://google.com"; // Redirect if wrong
@@ -24,6 +26,60 @@
         }
 
         document.addEventListener("DOMContentLoaded", checkPassword);
+
+        // Initialize Google API Client
+        function initApiClient() {
+            gapi.client.init({
+                'apiKey': 'AIzaSyD4ZmRfgaiNP9xA1YYkS-pj4OlCjHJ2ffM',
+                'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            }).then(() => {
+                console.log('Google Sheets API initialized');
+            });
+        }
+
+        // Function to get data from Google Sheets based on ZIP code
+        function getRate() {
+            let zip = document.getElementById("zipCodeInput").value;
+            document.getElementById("rateOutput").innerText = "Fetching data..."; // Show a loading message
+
+            const spreadsheetId = '1TuzowmTD242gjt2aXYCV8crcRZlLMQEB';  // Your spreadsheet ID
+            const range = 'Sheet1!B5'; // Range to set ZIP code in cell B5
+
+            // First, set the ZIP code in cell B5
+            gapi.client.sheets.spreadsheets.values.update({
+                spreadsheetId: spreadsheetId,
+                range: range,
+                valueInputOption: 'USER_ENTERED',
+                resource: {
+                    values: [[zip]]
+                }
+            }).then((response) => {
+                // After setting the ZIP, get the rates from cells B10, B11, and B12
+                const rateRange = 'Sheet1!B10:B12'; // Range for freight cost, fuel cost, and total
+                gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: spreadsheetId,
+                    range: rateRange
+                }).then((response) => {
+                    const data = response.result.values;
+                    if (data && data.length > 0) {
+                        const freightCost = data[0] ? data[0][0] : "N/A";
+                        const fuelCost = data[1] ? data[1][0] : "N/A";
+                        const totalCost = data[2] ? data[2][0] : "N/A";
+
+                        document.getElementById("rateOutput").innerHTML =
+                            `Freight Cost: $${freightCost}<br>Fuel Cost: $${fuelCost}<br>Total: $${totalCost}`;
+                    } else {
+                        document.getElementById("rateOutput").innerText = "No data found for this ZIP code.";
+                    }
+                }).catch((error) => {
+                    console.error('Error fetching rates:', error);
+                    document.getElementById("rateOutput").innerText = "Error fetching data.";
+                });
+            }).catch((error) => {
+                console.error('Error setting ZIP code:', error);
+                document.getElementById("rateOutput").innerText = "Error setting ZIP code.";
+            });
+        }
     </script>
 </head>
 <body>
@@ -41,13 +97,5 @@
 
         <button onclick="logout()">Logout</button>
     </div>
-
-    <script>
-        function getRate() {
-            let zip = document.getElementById("zipCodeInput").value;
-            document.getElementById("rateOutput").innerText = "Rate for " + zip + " is $XXX"; 
-            // Replace with actual logic later
-        }
-    </script>
 </body>
 </html>
