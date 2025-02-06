@@ -7,6 +7,7 @@
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
         const correctPassword = "trucking123"; // Set your password here
+        let apiClientReady = false; // Flag to track if API client is initialized
 
         function checkPassword() {
             let enteredPassword = prompt("Enter password to access:");
@@ -34,6 +35,7 @@
                 'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
             }).then(() => {
                 console.log('Google Sheets API initialized');
+                apiClientReady = true; // Set the flag to true once initialized
             }).catch((error) => {
                 console.error('Error initializing Google Sheets API:', error);
             });
@@ -41,6 +43,11 @@
 
         // Function to get data from Google Sheets based on ZIP code
         function getRate() {
+            if (!apiClientReady) {
+                console.log('Google Sheets API client is not initialized yet.');
+                return; // Exit early if the API client isn't ready
+            }
+
             let zip = document.getElementById("zipCodeInput").value;
             document.getElementById("rateOutput").innerText = "Fetching data..."; // Show a loading message
 
