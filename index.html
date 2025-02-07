@@ -39,7 +39,7 @@
                 // Check if data contains the expected properties
                 if (data && data.freightCost !== undefined && data.fuelCost !== undefined && data.totalCost !== undefined) {
                     document.getElementById("rateOutput").innerHTML =
-                        `City: {data.location} <br>Freight Cost: $${data.freightCost}<br>Fuel Cost: $${data.fuelCost}<br>Total: $${data.totalCost}`;
+                        `City: $${data.location} <br>Freight Cost: $${data.freightCost}<br>Fuel Cost: $${data.fuelCost}<br>Total: $${data.totalCost}`;
                 } else {
                     document.getElementById("rateOutput").innerText = "Invalid data format received.";
                 }
