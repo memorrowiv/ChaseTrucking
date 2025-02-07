@@ -94,42 +94,46 @@
         }
     </script>
 </head>
-<body>
-    <div id="loginSection">
-        <h2>Checking Password...</h2>
-    </div>
+<body class="d-flex justify-content-center align-items-center vh-100 text-center">
+    <div class="container">
+        <div id="loginSection">
+            <h2>Checking Password...</h2>
+        </div>
 
-    <div id="protectedContent" style="display:none;">
-        <h1>Rates Calculator</h1>
-        <p>Enter a ZIP code to get a rate:</p>
-        <input type="text" id="zipCodeInput" placeholder="Enter ZIP code">
-        <button onclick="getRate()">Get Rate</button>
+        <div id="protectedContent" style="display:none;">
+            <h1>Rates Calculator</h1>
+            <p>Enter a ZIP code to get a rate:</p>
+            <input type="text" id="zipCodeInput" placeholder="Enter ZIP code">
+            <button onclick="getRate()">Get Rate</button>
 
-        <p id="rateOutput"></p>
+            <p id="rateOutput"></p>
 
-        <h3>Additional Charges</h3>
-        <label><input type="checkbox" id="localOver" data-label="Local Overweight" onchange="updateTotal()"> Local Overweight - $50.00</label><br>
-        <label><input type="checkbox" id="standardOver" data-label="Standard Overweight" onchange="updateTotal()"> Standard Overweight - $100.00</label><br>
-        <label><input type="checkbox" id="excessiveOver" data-label="Excessive Overweight" onchange="updateTotal()"> Excessive Overweight - $130.00</label><br>
-        <p>Standard Overweight</p>
-        <p> 40': 44,000 - 51,000 lbs</p>
-        <p> 20': 38,000 - 42,000 lbs</p>
-        
-        <label><input type="checkbox" id="stopUnder5" data-label="Stop Off under 5 miles" onchange="updateTotal()"> Stop Off under 5 miles - $75.00</label><br>
-        <label><input type="checkbox" id="stop5to15" data-label="Stop off 5 - 15 miles" onchange="updateTotal()"> Stop off 5 - 15 miles - $125.00</label><br>
-        <p>Stop off more than 15 miles: Check for rate</p>
+            <h3>Additional Charges</h3>
+            <div class="text-start d-inline-block">
+                <label><input type="checkbox" id="localOver" data-label="Local Overweight" onchange="updateTotal()"> Local Overweight - $50.00</label><br>
+                <label><input type="checkbox" id="standardOver" data-label="Standard Overweight" onchange="updateTotal()"> Standard Overweight - $100.00</label><br>
+                <label><input type="checkbox" id="excessiveOver" data-label="Excessive Overweight" onchange="updateTotal()"> Excessive Overweight - $130.00</label><br>
+                <p>Standard Overweight</p>
+                <p> 40': 44,000 - 51,000 lbs</p>
+                <p> 20': 38,000 - 42,000 lbs</p>
 
-        <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
-        <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
-        <label><input type="checkbox" id="yardMove" data-label="Yard move at Customer" onchange="updateTotal()"> Yard move at Customer - $50.00</label><br>
+                <label><input type="checkbox" id="stopUnder5" data-label="Stop Off under 5 miles" onchange="updateTotal()"> Stop Off under 5 miles - $75.00</label><br>
+                <label><input type="checkbox" id="stop5to15" data-label="Stop off 5 - 15 miles" onchange="updateTotal()"> Stop off 5 - 15 miles - $125.00</label><br>
+                <p>Stop off more than 15 miles: Check for rate</p>
 
-        <label><input type="checkbox" id="portPrePull" data-label="Port Pre Pull" onchange="updateTotal()"> Port Pre Pull - $75.00</label><br>
-        <label><input type="checkbox" id="csxPrePull" data-label="CSX pre pull" onchange="updateTotal()"> CSX pre pull - $125.00</label><br>
-        <label><input type="checkbox" id="emptyYardToPort" data-label="Empty from yard to port" onchange="updateTotal()"> Empty from yard to port - $25.00</label><br>
+                <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
+                <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
+                <label><input type="checkbox" id="yardMove" data-label="Yard move at Customer" onchange="updateTotal()"> Yard move at Customer - $50.00</label><br>
 
-        <p id="totalCost"><strong>Total Cost:</strong></p>
+                <label><input type="checkbox" id="portPrePull" data-label="Port Pre Pull" onchange="updateTotal()"> Port Pre Pull - $75.00</label><br>
+                <label><input type="checkbox" id="csxPrePull" data-label="CSX pre pull" onchange="updateTotal()"> CSX pre pull - $125.00</label><br>
+                <label><input type="checkbox" id="emptyYardToPort" data-label="Empty from yard to port" onchange="updateTotal()"> Empty from yard to port - $25.00</label><br>
+            </div>
 
-        <button onclick="logout()">Logout</button>
+            <p id="totalCost"><strong>Total Cost:</strong></p>
+
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        </div>
     </div>
 </body>
 </html>
