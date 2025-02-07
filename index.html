@@ -25,21 +25,31 @@
 
         document.addEventListener("DOMContentLoaded", checkPassword);
 
+        let baseTotalCost = 0; // Store the base total cost
+
         // Function to get data from Google Apps Script Web App
         async function getRate() {
             let zip = document.getElementById("zipCodeInput").value;
             document.getElementById("rateOutput").innerText = "Fetching data..."; // Show a loading message
 
-            const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec';  // Your Web App URL
+            const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec'; // Your Web App URL
             const response = await fetch(`${url}?zip=${zip}`);
-            
+
             try {
                 const data = await response.json();
 
                 // Check if data contains the expected properties
                 if (data && data.freightCost !== undefined && data.fuelCost !== undefined && data.totalCost !== undefined) {
-                    document.getElementById("rateOutput").innerHTML =
-                        `City: ${data.location} <br>Freight Cost: $${data.freightCost}<br>Fuel Cost: $${data.fuelCost}<br>Total: $${data.totalCost}`;
+                    baseTotalCost = data.totalCost; // Store the base total cost
+
+                    document.getElementById("rateOutput").innerHTML = `
+                        <strong>City:</strong> ${data.location} <br>
+                        <strong>Freight Cost:</strong> $${data.freightCost}<br>
+                        <strong>Fuel Cost:</strong> $${data.fuelCost}<br>
+                        <strong>Base Total:</strong> $${data.totalCost}
+                    `;
+
+                    updateTotal(); // Ensure additional charges are calculated
                 } else {
                     document.getElementById("rateOutput").innerText = "Invalid data format received.";
                 }
@@ -47,6 +57,30 @@
                 document.getElementById("rateOutput").innerText = "Error fetching data. Please try again later.";
                 console.error("Error parsing JSON:", error);
             }
+        }
+
+        function updateTotal() {
+            let extraCharges = 0;
+            let details = "";
+
+            // Check which checkboxes are selected and add corresponding charges
+            if (document.getElementById("oversizedLoad").checked) {
+                extraCharges += 50; // Example fee for oversized load
+                details += `<br>+ $50 for Over-sized Load`;
+            }
+            if (document.getElementById("needReefer").checked) {
+                extraCharges += 75; // Example fee for reefer
+                details += `<br>+ $75 for Reefer`;
+            }
+            if (document.getElementById("extraStops").checked) {
+                extraCharges += 30; // Example fee for extra stops
+                details += `<br>+ $30 for Extra Stops`;
+            }
+
+            let newTotal = baseTotalCost + extraCharges;
+            document.getElementById("totalCost").innerHTML = `
+                <strong>Total Cost:</strong> $${newTotal} ${details}
+            `;
         }
     </script>
 </head>
@@ -62,6 +96,13 @@
         <button onclick="getRate()">Get Rate</button>
 
         <p id="rateOutput"></p>
+
+        <h3>Additional Charges</h3>
+        <label><input type="checkbox" id="oversizedLoad" onchange="updateTotal()"> Over-sized Load (+$50)</label><br>
+        <label><input type="checkbox" id="needReefer" onchange="updateTotal()"> Need Reefer (+$75)</label><br>
+        <label><input type="checkbox" id="extraStops" onchange="updateTotal()"> Extra Stops (+$30)</label><br>
+
+        <p id="totalCost"><strong>Total Cost:</strong></p>
 
         <button onclick="logout()">Logout</button>
     </div>
