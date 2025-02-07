@@ -113,13 +113,19 @@
                 <label><input type="checkbox" id="localOver" data-label="Local Overweight" onchange="updateTotal()"> Local Overweight - $50.00</label><br>
                 <label><input type="checkbox" id="standardOver" data-label="Standard Overweight" onchange="updateTotal()"> Standard Overweight - $100.00</label><br>
                 <label><input type="checkbox" id="excessiveOver" data-label="Excessive Overweight" onchange="updateTotal()"> Excessive Overweight - $130.00</label><br>
-                <p>Standard Overweight</p>
-                <p> 40': 44,000 - 51,000 lbs</p>
-                <p> 20': 38,000 - 42,000 lbs</p>
-
+                <div class="alert alert-secondary mt-3">
+                    <h5>Overweight Charges</h5>
+                    <p>Standard Overweight:</p>
+                    <p>40': 44,000 - 51,000 lbs</p>
+                    <p>20': 38,000 - 42,000 lbs</p>
+                </div>
+                    
                 <label><input type="checkbox" id="stopUnder5" data-label="Stop Off under 5 miles" onchange="updateTotal()"> Stop Off under 5 miles - $75.00</label><br>
                 <label><input type="checkbox" id="stop5to15" data-label="Stop off 5 - 15 miles" onchange="updateTotal()"> Stop off 5 - 15 miles - $125.00</label><br>
-                <p>Stop off more than 15 miles: Check for rate</p>
+                <div class="alert alert-info mt-3">
+                    <h5>Stop Off Charges</h5>
+                    <p>Stop off more than 15 miles: Check for rate</p>
+                </div>
 
                 <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
                 <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
