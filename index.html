@@ -32,13 +32,20 @@
 
             const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec';  // Your Web App URL
             const response = await fetch(`${url}?zip=${zip}`);
-            const data = await response.json();
+            
+            try {
+                const data = await response.json();
 
-            if (data) {
-                document.getElementById("rateOutput").innerHTML =
-                    `Freight Cost: $${data.freightCost}<br>Fuel Cost: $${data.fuelCost}<br>Total: $${data.totalCost}`;
-            } else {
-                document.getElementById("rateOutput").innerText = "No data found for this ZIP code.";
+                // Check if data contains the expected properties
+                if (data && data.freightCost !== undefined && data.fuelCost !== undefined && data.totalCost !== undefined) {
+                    document.getElementById("rateOutput").innerHTML =
+                        `Freight Cost: $${data.freightCost}<br>Fuel Cost: $${data.fuelCost}<br>Total: $${data.totalCost}`;
+                } else {
+                    document.getElementById("rateOutput").innerText = "Invalid data format received.";
+                }
+            } catch (error) {
+                document.getElementById("rateOutput").innerText = "Error fetching data. Please try again later.";
+                console.error("Error parsing JSON:", error);
             }
         }
     </script>
