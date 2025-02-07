@@ -46,9 +46,9 @@
 
                     document.getElementById("rateOutput").innerHTML = `
                         <strong>City:</strong> ${data.location} <br>
-                        <strong>Freight Cost:</strong> $${data.freightCost}<br>
-                        <strong>Fuel Cost:</strong> $${data.fuelCost}<br>
-                        <strong>Base Total:</strong> $${data.totalCost}
+                        <strong>Freight Cost:</strong> $${data.freightCost.toFixed(2)}<br>
+                        <strong>Fuel Cost:</strong> $${data.fuelCost.toFixed(2)}<br>
+                        <strong>Base Total:</strong> $${data.totalCost.toFixed(2)}
                     `;
 
                     updateTotal(); // Ensure additional charges are calculated
