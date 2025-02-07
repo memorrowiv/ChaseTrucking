@@ -63,23 +63,31 @@
             let extraCharges = 0;
             let details = "";
 
-            // Check which checkboxes are selected and add corresponding charges
-            if (document.getElementById("oversizedLoad").checked) {
-                extraCharges += 50; // Example fee for oversized load
-                details += `<br>+ $50 for Over-sized Load`;
-            }
-            if (document.getElementById("needReefer").checked) {
-                extraCharges += 75; // Example fee for reefer
-                details += `<br>+ $75 for Reefer`;
-            }
-            if (document.getElementById("extraStops").checked) {
-                extraCharges += 30; // Example fee for extra stops
-                details += `<br>+ $30 for Extra Stops`;
+            // Charges mapping
+            const charges = {
+                localOver: 50,
+                standardOver: 100,
+                excessiveOver: 130,
+                stopUnder5: 75,
+                stop5to15: 125,
+                reefer: 50,
+                hazMat: 75,
+                yardMove: 50,
+                portPrePull: 75,
+                csxPrePull: 125,
+                emptyYardToPort: 25
+            };
+
+            for (let key in charges) {
+                if (document.getElementById(key).checked) {
+                    extraCharges += charges[key];
+                    details += `<br>+ $${charges[key].toFixed(2)} for ${document.getElementById(key).dataset.label}`;
+                }
             }
 
             let newTotal = baseTotalCost + extraCharges;
             document.getElementById("totalCost").innerHTML = `
-                <strong>Total Cost:</strong> $${newTotal} ${details}
+                <strong>Total Cost:</strong> $${newTotal.toFixed(2)} ${details}
             `;
         }
     </script>
@@ -98,9 +106,21 @@
         <p id="rateOutput"></p>
 
         <h3>Additional Charges</h3>
-        <label><input type="checkbox" id="oversizedLoad" onchange="updateTotal()"> Over-sized Load (+$50)</label><br>
-        <label><input type="checkbox" id="needReefer" onchange="updateTotal()"> Need Reefer (+$75)</label><br>
-        <label><input type="checkbox" id="extraStops" onchange="updateTotal()"> Extra Stops (+$30)</label><br>
+        <label><input type="checkbox" id="localOver" data-label="Local Overweight" onchange="updateTotal()"> Local Overweight - $50.00</label><br>
+        <label><input type="checkbox" id="standardOver" data-label="Standard Overweight" onchange="updateTotal()"> Standard Overweight - $100.00</label><br>
+        <label><input type="checkbox" id="excessiveOver" data-label="Excessive Overweight" onchange="updateTotal()"> Excessive Overweight - $130.00</label><br>
+        
+        <label><input type="checkbox" id="stopUnder5" data-label="Stop Off under 5 miles" onchange="updateTotal()"> Stop Off under 5 miles - $75.00</label><br>
+        <label><input type="checkbox" id="stop5to15" data-label="Stop off 5 - 15 miles" onchange="updateTotal()"> Stop off 5 - 15 miles - $125.00</label><br>
+        <p>Stop off more than 15 miles: Check for rate</p>
+
+        <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
+        <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
+        <label><input type="checkbox" id="yardMove" data-label="Yard move at Customer" onchange="updateTotal()"> Yard move at Customer - $50.00</label><br>
+
+        <label><input type="checkbox" id="portPrePull" data-label="Port Pre Pull" onchange="updateTotal()"> Port Pre Pull - $75.00</label><br>
+        <label><input type="checkbox" id="csxPrePull" data-label="CSX pre pull" onchange="updateTotal()"> CSX pre pull - $125.00</label><br>
+        <label><input type="checkbox" id="emptyYardToPort" data-label="Empty from yard to port" onchange="updateTotal()"> Empty from yard to port - $25.00</label><br>
 
         <p id="totalCost"><strong>Total Cost:</strong></p>
 
