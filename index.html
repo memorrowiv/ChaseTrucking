@@ -7,14 +7,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Trucking Rate Calculator</title>
     <script>
-        // Function to fetch the password from the Google Apps Script
         async function fetchPassword() {
             const scriptUrl = "https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec?action=getPassword";
-
-
+            
             try {
                 const response = await fetch(scriptUrl);
                 const data = await response.json();
+                console.log("Fetched password:", data.password); // Debug log
                 return data.password;
             } catch (error) {
                 console.error("Error fetching password:", error);
@@ -22,41 +21,49 @@
             }
         }
 
-        // Check password on login
         async function checkPassword() {
+            console.log("checkPassword() triggered.");
             let enteredPassword = prompt("Enter password to access:");
+
+            if (!enteredPassword) {
+                console.log("User canceled password prompt.");
+                return;
+            }
+
             const storedPassword = await fetchPassword();
 
             if (storedPassword && enteredPassword === storedPassword) {
+                console.log("Password correct. Showing content.");
                 document.getElementById("protectedContent").style.display = "block";
                 document.getElementById("loginSection").style.display = "none";
             } else {
+                console.warn("Incorrect password. Redirecting.");
                 alert("Incorrect password.");
-                window.location.href = "https://google.com"; // Redirect if wrong
+                window.location.href = "https://google.com";
             }
         }
 
         function logout() {
-            location.reload(); // Reload the page to trigger the password prompt again
+            location.reload(); 
         }
 
-        document.addEventListener("DOMContentLoaded", checkPassword);
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(checkPassword, 500);
+        });
 
-        let baseTotalCost = 0; // Store the base total cost
+        let baseTotalCost = 0;
 
-        // Function to get data from Google Apps Script Web App
         async function getRate() {
             let zip = document.getElementById("zipCodeInput").value;
-            document.getElementById("rateOutput").innerText = "Fetching data..."; // Show a loading message
+            document.getElementById("rateOutput").innerText = "Fetching data...";
 
-            const url = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // Your Web App URL
-            const response = await fetch(`${url}?action=getRates&zip=${zip}`);
-
+            const url = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; 
             try {
+                const response = await fetch(`${url}?action=getRates&zip=${zip}`);
                 const data = await response.json();
 
                 if (data && data.freightCost !== undefined && data.fuelCost !== undefined && data.totalCost !== undefined) {
-                    baseTotalCost = data.totalCost; // Store the base total cost
+                    baseTotalCost = data.totalCost;
 
                     document.getElementById("rateOutput").innerHTML = `
                         <strong>City:</strong> ${data.location} <br>
@@ -65,7 +72,7 @@
                         <strong>Base Total:</strong> $${data.totalCost.toFixed(2)}
                     `;
 
-                    updateTotal(); // Ensure additional charges are calculated
+                    updateTotal();
                 } else {
                     document.getElementById("rateOutput").innerText = "Invalid data format received.";
                 }
@@ -127,6 +134,7 @@
                 <label><input type="checkbox" id="localOver" data-label="Local Overweight" onchange="updateTotal()"> Local Overweight - $50.00</label><br>
                 <label><input type="checkbox" id="standardOver" data-label="Standard Overweight" onchange="updateTotal()"> Standard Overweight - $100.00</label><br>
                 <label><input type="checkbox" id="excessiveOver" data-label="Excessive Overweight" onchange="updateTotal()"> Excessive Overweight - $130.00</label><br>
+                
                 <div class="alert alert-secondary mt-3">
                     <h5>Overweight Charges</h5>
                     <p>Standard Overweight:</p>
@@ -139,10 +147,19 @@
                     
                 <label><input type="checkbox" id="stopUnder5" data-label="Stop Off under 5 miles" onchange="updateTotal()"> Stop Off under 5 miles - $75.00</label><br>
                 <label><input type="checkbox" id="stop5to15" data-label="Stop off 5 - 15 miles" onchange="updateTotal()"> Stop off 5 - 15 miles - $125.00</label><br>
+                
                 <div class="alert alert-info mt-3">
                     <h5>Stop Off Charges</h5>
                     <p>Stop off more than 15 miles: Check for rate</p>
                 </div>
 
                 <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
-                <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><
+                <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
+            </div>
+
+            <p id="totalCost"><strong>Total Cost:</strong> $0.00</p>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+</body>
+</html>
