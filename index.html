@@ -48,7 +48,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(checkPassword, 250);
+            setTimeout(checkPassword, 200);
         });
 
         let baseTotalCost = 0;
@@ -57,21 +57,20 @@
             let zip = document.getElementById("zipCodeInput").value;
             document.getElementById("rateOutput").innerText = "Fetching data...";
 
-            const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec'; // Your Web App URL
-            const response = await fetch(${url}?action=getRates&zip=${zip});
+            const url = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; 
             try {
-                const response = await fetch(${url}?action=getRates&zip=${zip});
+                const response = await fetch(`${url}?action=getRates&zip=${zip}`);
                 const data = await response.json();
 
                 if (data && data.freightCost !== undefined && data.fuelCost !== undefined && data.totalCost !== undefined) {
                     baseTotalCost = data.totalCost;
 
-                    document.getElementById("rateOutput").innerHTML = 
+                    document.getElementById("rateOutput").innerHTML = `
                         <strong>City:</strong> ${data.location} <br>
                         <strong>Freight Cost:</strong> $${data.freightCost.toFixed(2)}<br>
                         <strong>Fuel Cost:</strong> $${data.fuelCost.toFixed(2)}<br>
                         <strong>Base Total:</strong> $${data.totalCost.toFixed(2)}
-                    ;
+                    `;
 
                     updateTotal();
                 } else {
@@ -104,14 +103,14 @@
             for (let key in charges) {
                 if (document.getElementById(key).checked) {
                     extraCharges += charges[key];
-                    details += <br>+ $${charges[key].toFixed(2)} for ${document.getElementById(key).dataset.label};
+                    details += `<br>+ $${charges[key].toFixed(2)} for ${document.getElementById(key).dataset.label}`;
                 }
             }
 
             let newTotal = baseTotalCost + extraCharges;
-            document.getElementById("totalCost").innerHTML = 
+            document.getElementById("totalCost").innerHTML = `
                 <strong>Total Cost:</strong> $${newTotal.toFixed(2)} ${details}
-            ;
+            `;
         }
     </script>
 </head>
