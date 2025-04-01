@@ -155,10 +155,16 @@
 
                 <label><input type="checkbox" id="reefer" data-label="Reefer" onchange="updateTotal()"> Reefer - $50.00</label><br>
                 <label><input type="checkbox" id="hazMat" data-label="Haz Mat" onchange="updateTotal()"> Haz Mat - $75.00</label><br>
+                <label><input type="checkbox" id="yardMove" data-label="Yard move at Customer" onchange="updateTotal()"> Yard move at Customer - $50.00</label><br>
+
+                <label><input type="checkbox" id="portPrePull" data-label="Port Pre Pull" onchange="updateTotal()"> Port Pre Pull - $75.00</label><br>
+                <label><input type="checkbox" id="csxPrePull" data-label="CSX pre pull" onchange="updateTotal()"> CSX pre pull - $125.00</label><br>
+                <label><input type="checkbox" id="emptyYardToPort" data-label="Empty from yard to port" onchange="updateTotal()"> Empty from yard to port - $25.00</label><br>
             </div>
 
-            <p id="totalCost"><strong>Total Cost:</strong> $0.00</p>
-            <button onclick="logout()">Logout</button>
+            <p id="totalCost"><strong>Total Cost:</strong></p>
+
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
         </div>
     </div>
 </body>
