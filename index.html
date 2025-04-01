@@ -57,7 +57,7 @@
             let zip = document.getElementById("zipCodeInput").value;
             document.getElementById("rateOutput").innerText = "Fetching data...";
 
-            const url = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; 
+            const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec'; 
             try {
                 const response = await fetch(`${url}?action=getRates&zip=${zip}`);
                 const data = await response.json();
