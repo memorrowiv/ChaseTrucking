@@ -58,7 +58,7 @@
             document.getElementById("rateOutput").innerText = "Fetching data...";
 
             const url = 'https://script.google.com/macros/s/AKfycby4DoYAGHU7NEmdO0U9n2gnrKNefON3nAeoNIOYSgc5PE3QaOSh_nxgtEJ10n63rhLH/exec'; // Your Web App URL
-            const response = await fetch(`${url}?zip=${zip}`);
+            const response = await fetch(`${url}?action=getRates&zip=${zip}`);
             try {
                 const response = await fetch(`${url}?action=getRates&zip=${zip}`);
                 const data = await response.json();
